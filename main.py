@@ -1,10 +1,9 @@
 import tensorflow as tf
 from Model import networkModel
 from StringGenerator import stringGenerator
+from configs import *
 # Must implement loss function
 
-TRAINING_SIZE, TEST_SIZE = 100000, 40000
-EPOCHS = 10
 
 
 

@@ -2,12 +2,13 @@ import numpy as np
 from PIL import Image
 from matplotlib.pyplot import imread
 import cv2
+from configs import *
 
 MEANS = np.zeros(3)
 
 def reshape_image(image):
     # Reshape image to match expected input of VGG16
-    image = cv2.resize(image, (25,25), interpolation=cv2.INTER_CUBIC)
+    image = cv2.resize(image, IMAGE_SIZE, interpolation=cv2.INTER_CUBIC)
     return image
 
 def fill_MEANS(image):
