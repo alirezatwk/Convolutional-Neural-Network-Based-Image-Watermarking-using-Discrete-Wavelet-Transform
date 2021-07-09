@@ -8,6 +8,7 @@ from tensorflow.python.keras.layers import AveragePooling2D, MaxPooling2D, Dropo
 from tensorflow.python.keras.layers import UpSampling2D
 from tensorflow.python.keras.models import Model
 from tensorflow.python.keras.preprocessing import image
+
 # from tensorflow.python.keras.utils import layer_utils
 # from tensorflow.python.keras.utils.data_utils import get_file
 # from tensorflow.python.keras.applications.imagenet_utils import preprocess_input
@@ -41,7 +42,8 @@ def FinalModel(imagesShape, watermarksShape):
     ext = extractionNetwork(WMImage)
 
     model = Model(inputs=[images, watermarks], outputs=[WMImage, ext], name="embedingNetwork")
-    model.summary()
+    # model.summary()
+    return model
 
 def hostImageNetwork(images):
     x = Lambda(lambda c: tf.image.rgb_to_grayscale(c))(images) 
@@ -61,14 +63,14 @@ def WMNetwork(watermarks):
 
     # Second layer
     y = UpSampling2D(size=(2, 2))(y) # Use for covering stride = 0.5 of Conv2D
-    y = Conv2D(128, (3, 3), padding="same", strides=(1, 1))(y) # 128 according to Figure 2 TODO: ask Zahra what to do with this number
+    y = Conv2D(256, (3, 3), padding="same", strides=(1, 1))(y) # 128 according to Figure 2 TODO: ask Zahra what to do with this number
     y = BatchNormalization()(y)
     y = Activation('relu')(y)
     y = AveragePooling2D(pool_size=(2, 2), strides=(1, 1), padding="same")(y)
     
     # Third layer
     y = UpSampling2D(size=(2, 2))(y) # Use for covering stride = 0.5 of Conv2D
-    y = Conv2D(64, (3, 3), padding="same", strides=(1, 1))(y)
+    y = Conv2D(128, (3, 3), padding="same", strides=(1, 1))(y)
     y = BatchNormalization()(y)
     y = Activation('relu')(y)
     y = AveragePooling2D(pool_size=(2, 2), strides=(1, 1), padding="same")(y)
@@ -126,7 +128,7 @@ def extractionNetwork(WMImage):
     return ext
 
 
-FinalModel((512, 512, 3), (32 * 32,))
+# FinalModel((512, 512, 3), (32 * 32,))
 
 
 
