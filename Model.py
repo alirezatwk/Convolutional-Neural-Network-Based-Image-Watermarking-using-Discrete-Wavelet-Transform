@@ -23,8 +23,8 @@ def FinalModel(imagesShape, watermarksShape):
     ext = extractionNetwork(WMImage)
 
     model = Model(inputs=[imageLayer, watermarkLayer], outputs=[WMImage, ext], name="embedingNetwork")
-    # model.summary()
-    return model
+    model.summary()
+    # return model
 
 def hostImageNetwork(imageLayer):
     x = Lambda(lambda c: tf.image.rgb_to_grayscale(c))(imageLayer) 
@@ -108,4 +108,4 @@ def extractionNetwork(WMImage):
     ext = Activation('tanh', name="outputWatermark")(ext)
     return ext
 
-# FinalModel((512, 512, 3), (32 * 32,))
+FinalModel((512, 512, 3), (32 * 32,))
