@@ -4,17 +4,19 @@ from typing import List
 import tensorflow as tf
 
 from data_loaders.base_data_loader import BaseDataLoader
+from data_loaders.configs import IMAGE_FORMATS
 
 
 class TensorFlowImageDataLoader(BaseDataLoader):
-    def __init__(self, base_path: str, channels: List[int], convert_type=None):
+    def __init__(self, base_path: str, channels: List[int], convert_type=None, images_format=IMAGE_FORMATS):
         super(TensorFlowImageDataLoader, self).__init__()
         self.base_path = base_path
         self.channels = channels
         self.convert_type = convert_type
+        self.images_format = images_format
 
     def get_file_paths(self):
-        file_paths = list(map(str, Path(self.base_path).glob('*.jpg')))
+        file_paths = list(map(str, Path(self.base_path).glob(f'*.{self.images_format}')))
         tensor_file_paths = tf.data.from_tensor_slices((file_paths,))
         return tensor_file_paths
 

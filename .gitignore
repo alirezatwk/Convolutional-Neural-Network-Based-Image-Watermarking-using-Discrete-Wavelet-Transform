@@ -1,2 +1,4 @@
-train-pic.jpg
+train_images
+test_images
 __pycache__
+.idea
