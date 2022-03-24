@@ -1,4 +1,5 @@
 train_images
 test_images
+pure_wavelet
 __pycache__
 .idea

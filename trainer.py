@@ -15,11 +15,13 @@ loss_weights = {
 }
 
 train_dataset = MergedDataLoader(image_base_path=TRAIN_IMAGES_PATH, image_channels=[0], image_convert_type=tf.float32,
-                                 watermark_size=WATERMARK_SIZE, batch_size=BATCH_SIZE)
+                                 watermark_size=WATERMARK_SIZE, attack_max_id=5,
+                                 batch_size=BATCH_SIZE).get_data_loader()
 
 model = WaveTFModel(image_size=IMAGE_SIZE, watermark_size=WATERMARK_SIZE).get_model()
 model.compile(optimizer=optimizer, loss=losses, loss_weights=loss_weights, metrics=['accuracy'])
-file_path = MODEL_OUTPUT_PATH + 'epochs:{epoch03d}-embedded_image_loss:{embedded_image_loss:.9f}.hdf5'
+file_path = MODEL_OUTPUT_PATH + 'epochs:{epoch:03d}-embedded_image_loss:{' \
+                                'embedded_image_loss:.9f}-output_watermark_loss:{output_watermark_loss:.9f}.hdf5 '
 checkpoint = ModelCheckpoint(file_path, monitor='loss', verbose=1)
 callbacks_list = [checkpoint]
 
