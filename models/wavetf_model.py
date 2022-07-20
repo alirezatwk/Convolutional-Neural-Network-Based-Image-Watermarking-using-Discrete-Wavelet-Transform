@@ -38,7 +38,8 @@ class WaveTFModel(BaseModel):
         first_wavelet_image = wavelet_factory[:, :, :, 0:1] / 2
         return first_wavelet_image, wavelet_factory
 
-    def preprocess_image_network(self, image_input):
+    @staticmethod
+    def preprocess_image_network(image_input):
         image_output = Conv2D(filters=64, kernel_size=(3, 3), padding='same')(image_input)
         return image_output
 
@@ -53,7 +54,8 @@ class WaveTFModel(BaseModel):
             square_watermark = AveragePooling2D(pool_size=(2, 2), strides=(1, 1), padding='same')(square_watermark)
         return square_watermark
 
-    def embedding_network(self, input_network):
+    @staticmethod
+    def embedding_network(input_network):
         for i in range(3):
             input_network = Conv2D(filters=64, kernel_size=(3, 3), padding='same')(input_network)
             input_network = BatchNormalization()(input_network)
@@ -67,7 +69,8 @@ class WaveTFModel(BaseModel):
         wavelet_inverse_layer = WaveTFFactory().build(self.wavelet_type, dim=2, inverse=True)(concatenate)
         return wavelet_inverse_layer
 
-    def attack_simulator(self, image_layer, attack_id_layer):
+    @staticmethod
+    def attack_simulator(image_layer, attack_id_layer):
         condition = Lambda(lambda x: tf.switch_case(
             x[0][0],
             branch_fns={

@@ -1,8 +1,12 @@
 import tensorflow as tf
 from configs import *
-from models.wavetf_model import WaveTFModel
+from wavetf._haar_conv import HaarWaveLayer2D, InvHaarWaveLayer2D
 from data_loaders.merged_data_loader import MergedDataLoader
+from tensorflow.python.keras.models import load_model
 from keras.callbacks import ModelCheckpoint
+
+initial_epoch = 2
+model_name = 'epochs:001-embedded_image_loss:0.002901714-output_watermark_loss:0.173016176.hdf5'
 
 optimizer = tf.keras.optimizers.Adam(learning_rate=LEARNING_RATE)
 losses = {
@@ -18,11 +22,11 @@ train_dataset = MergedDataLoader(image_base_path=TRAIN_IMAGES_PATH, image_channe
                                  watermark_size=WATERMARK_SIZE, attack_max_id=5,
                                  batch_size=BATCH_SIZE).get_data_loader()
 
-model = WaveTFModel(image_size=IMAGE_SIZE, watermark_size=WATERMARK_SIZE).get_model()
-model.compile(optimizer=optimizer, loss=losses, loss_weights=loss_weights, metrics=['accuracy'])
+model = load_model(MODEL_OUTPUT_PATH + model_name,
+                   custom_objects={"HaarWaveLayer2D": HaarWaveLayer2D, 'InvHaarWaveLayer2D': InvHaarWaveLayer2D})
 file_path = MODEL_OUTPUT_PATH + 'epochs:{epoch:03d}-embedded_image_loss:{' \
                                 'embedded_image_loss:.9f}-output_watermark_loss:{output_watermark_loss:.9f}.hdf5'
 checkpoint = ModelCheckpoint(file_path, monitor='loss', verbose=1)
 callbacks_list = [checkpoint]
 
-model.fit(train_dataset, epochs=EPOCHS, callbacks=[callbacks_list], batch_size=BATCH_SIZE)
+model.fit(train_dataset, epochs=EPOCHS, callbacks=[callbacks_list], batch_size=BATCH_SIZE, initial_epoch=initial_epoch)
