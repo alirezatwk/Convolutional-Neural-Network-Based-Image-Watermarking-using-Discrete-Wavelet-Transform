@@ -1,5 +1,6 @@
 train_images
 test_images
 pure_wavelet
+sample_outputs
 __pycache__
 .idea

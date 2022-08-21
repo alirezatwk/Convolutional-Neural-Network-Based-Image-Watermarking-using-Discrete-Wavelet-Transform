@@ -15,7 +15,7 @@ loss_weights = {
 }
 
 train_dataset = MergedDataLoader(image_base_path=TRAIN_IMAGES_PATH, image_channels=[0], image_convert_type=tf.float32,
-                                 watermark_size=WATERMARK_SIZE, attack_max_id=5,
+                                 watermark_size=WATERMARK_SIZE, attack_min_id=0, attack_max_id=5,
                                  batch_size=BATCH_SIZE).get_data_loader()
 
 model = WaveTFModel(image_size=IMAGE_SIZE, watermark_size=WATERMARK_SIZE).get_model()

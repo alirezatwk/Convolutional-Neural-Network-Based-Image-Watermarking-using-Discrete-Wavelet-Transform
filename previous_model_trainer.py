@@ -19,7 +19,7 @@ loss_weights = {
 }
 
 train_dataset = MergedDataLoader(image_base_path=TRAIN_IMAGES_PATH, image_channels=[0], image_convert_type=tf.float32,
-                                 watermark_size=WATERMARK_SIZE, attack_max_id=5,
+                                 watermark_size=WATERMARK_SIZE, attack_min_id=0, attack_max_id=5,
                                  batch_size=BATCH_SIZE).get_data_loader()
 
 model = load_model(MODEL_OUTPUT_PATH + model_name,

@@ -24,7 +24,6 @@ class TensorFlowImageDataLoader(BaseDataLoader):
     def get_images(self, file_path, label):
         images = tf.io.read_file(file_path)
         decoded_images = tf.image.decode_jpeg(images, channels=3)
-        print(self.channels)
         selected_channels_images = decoded_images[:, :, 0]
         result_images = tf.reshape(selected_channels_images, [256, 256, 1])
         if self.convert_type is not None:

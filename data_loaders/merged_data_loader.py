@@ -10,12 +10,13 @@ from data_loaders.watermark_data_loaders.tensor_flow_watermark_data_loader impor
 
 class MergedDataLoader(BaseDataLoader):
     def __init__(self, image_base_path: str, image_channels: List[int], image_convert_type, watermark_size: Tuple[int],
-                 attack_max_id: int, batch_size: int, prefetch=PREFETCH):
+                 attack_min_id: int, attack_max_id: int, batch_size: int, prefetch=PREFETCH):
         super(MergedDataLoader, self).__init__()
         self.image_data_loader = TensorFlowImageDataLoader(base_path=image_base_path, channels=image_channels,
                                                            convert_type=image_convert_type).get_data_loader()
         self.watermark_data_loader = TensorFlowWatermarkDataLoader(watermark_size=watermark_size).get_data_loader()
-        self.attack_id_data_loader = TensorFlowAttackIdDataLoader(max_value=attack_max_id).get_data_loader()
+        self.attack_id_data_loader = TensorFlowAttackIdDataLoader(min_value=attack_min_id,
+                                                                  max_value=attack_max_id).get_data_loader()
         self.batch_size = batch_size
         self.prefetch = prefetch
 

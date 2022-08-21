@@ -4,13 +4,14 @@ from data_loaders.base_data_loader import BaseDataLoader
 
 
 class TensorFlowAttackIdDataLoader(BaseDataLoader):
-    def __init__(self, max_value):
+    def __init__(self, max_value, min_value):
         super(TensorFlowAttackIdDataLoader, self).__init__()
+        self.min_value = min_value
         self.max_value = max_value
 
     def random_generator(self):
         while True:
-            yield tf.random.uniform((1,), minval=0, maxval=self.max_value, dtype=tf.dtypes.int32)
+            yield tf.random.uniform((1,), minval=self.min_value, maxval=self.max_value, dtype=tf.dtypes.int32)
 
     def get_data_loader(self):
         attack_id_loader = tf.data.Dataset.from_generator(
