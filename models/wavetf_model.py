@@ -12,6 +12,7 @@ from attacks.rotation_attack import rotation_function
 from attacks.salt_pepper_attack import salt_pepper_function
 from attacks.stupid_attack import stupid_function
 from attacks.drop_out_attack import drop_out_function
+from attacks.jpeg_attack import jpeg_function
 from models.base_model import BaseModel
 
 
@@ -78,7 +79,7 @@ class WaveTFModel(BaseModel):
                 0: lambda: stupid_function(x[1]),
                 1: lambda: salt_pepper_function(x[1]),
                 2: lambda: gaussian_noise_function(x[1]),
-                3: lambda: rotation_function(x[1]),
+                3: lambda: jpeg_function(x[1]),
                 4: lambda: drop_out_function(x[1])
             },
             default=lambda: stupid_function(x[1])
