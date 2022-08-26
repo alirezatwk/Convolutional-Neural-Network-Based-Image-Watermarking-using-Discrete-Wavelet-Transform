@@ -11,6 +11,7 @@ from attacks.gaussian_noise_attack import gaussian_noise_function
 from attacks.rotation_attack import rotation_function
 from attacks.salt_pepper_attack import salt_pepper_function
 from attacks.stupid_attack import stupid_function
+from attacks.drop_out_attack import drop_out_function
 from models.base_model import BaseModel
 
 
@@ -35,7 +36,7 @@ class WaveTFModel(BaseModel):
 
     def wavelet_transform(self, image_input_layer):
         wavelet_factory = WaveTFFactory().build(self.wavelet_type, dim=2)(image_input_layer)
-        first_wavelet_image = wavelet_factory[:, :, :, 0:1] / 2
+        first_wavelet_image = wavelet_factory[:, :, :, 3:] / 2
         return first_wavelet_image, wavelet_factory
 
     @staticmethod
@@ -65,7 +66,7 @@ class WaveTFModel(BaseModel):
         return output_layer
 
     def wavelet_inverse_transform(self, origin_image, watermarked_image):
-        concatenate = Concatenate(axis=-1)([watermarked_image * 2, origin_image[:, :, :, 1:]])
+        concatenate = Concatenate(axis=-1)([origin_image[:, :, :, :3], watermarked_image * 2])
         wavelet_inverse_layer = WaveTFFactory().build(self.wavelet_type, dim=2, inverse=True)(concatenate)
         return wavelet_inverse_layer
 
@@ -77,7 +78,8 @@ class WaveTFModel(BaseModel):
                 0: lambda: stupid_function(x[1]),
                 1: lambda: salt_pepper_function(x[1]),
                 2: lambda: gaussian_noise_function(x[1]),
-                3: lambda: rotation_function(x[1])
+                3: lambda: rotation_function(x[1]),
+                4: lambda: drop_out_function(x[1])
             },
             default=lambda: stupid_function(x[1])
         ))((attack_id_layer[0], image_layer))
@@ -107,7 +109,7 @@ class WaveTFModel(BaseModel):
         wavelet_watermarked_image = Lambda(lambda x: x, name='embedded_image')(wavelet_inverse_watermarked_image)
         attack_layer = self.attack_simulator(wavelet_inverse_watermarked_image, attack_id_layer)
         wavelet_attack_image = WaveTFFactory().build(self.wavelet_type, dim=2)(attack_layer)
-        first_channel_attack_image = wavelet_attack_image[:, :, :, 0:1] / 2
+        first_channel_attack_image = wavelet_attack_image[:, :, :, 3:4] / 2
         extracted_watermark = self.extraction_network(first_channel_attack_image)
         return Model(
             inputs=[image_input_layer, watermark_input_layer, attack_id_layer],
