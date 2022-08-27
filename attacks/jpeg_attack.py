@@ -13,8 +13,8 @@ class JPEGAttack(BaseAttack):
         batch = images.shape[0]
         outputs = []
         for i in range(batch):
-            outputs.append(tf.image.adjust_jpeg_quality(images[i] * 256, 50))
-        return tf.stack(outputs, axis=0) / 256
+            outputs.append(tf.image.adjust_jpeg_quality(images[i], 50))
+        return tf.stack(outputs, axis=0)
 
     def call(self, inputs):
         outputs = Lambda(lambda x: self.jpeg(x), output_shape=(10, 256, 256, 1))(inputs)
