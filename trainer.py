@@ -20,9 +20,12 @@ train_dataset = MergedDataLoader(image_base_path=TRAIN_IMAGES_PATH, image_channe
 
 model = WaveTFModel(image_size=IMAGE_SIZE, watermark_size=WATERMARK_SIZE).get_model()
 model.compile(optimizer=optimizer, loss=losses, loss_weights=loss_weights, metrics=['accuracy'])
+
 # windows
-file_path = MODEL_OUTPUT_PATH + 'epochs{epoch:03d}-embedded_image_loss_{embedded_image_loss:.9f}-output_watermark_loss_{output_watermark_loss:.9f}.hdf5'
-# ubunto
+file_path = MODEL_OUTPUT_PATH + 'epochs{epoch:03d}-embedded_image_loss_{embedded_image_loss:.9f}-' \
+                                'output_watermark_loss_{output_watermark_loss:.9f}.hdf5'
+
+# ubuntu
 # file_path = MODEL_OUTPUT_PATH + 'epochs:{epoch:03d}-embedded_image_loss:{' \
 #                                 'embedded_image_loss:.9f}-output_watermark_loss:{output_watermark_loss:.9f}.hdf5'
 

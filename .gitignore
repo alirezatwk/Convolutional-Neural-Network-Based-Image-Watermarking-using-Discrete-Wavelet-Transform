@@ -4,3 +4,4 @@ pure_wavelet
 sample_outputs
 __pycache__
 .idea
+.ipynb_checkpoints
