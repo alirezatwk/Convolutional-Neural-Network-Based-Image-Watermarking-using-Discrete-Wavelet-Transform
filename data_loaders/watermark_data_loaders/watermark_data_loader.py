@@ -4,9 +4,9 @@ from data_loaders.base_data_loader import BaseDataLoader
 from data_loaders.configs import SEED
 
 
-class TensorFlowWatermarkDataLoader(BaseDataLoader):
+class WatermarkDataLoader(BaseDataLoader):
     def __init__(self, watermark_size, seed=SEED):
-        super(TensorFlowWatermarkDataLoader, self).__init__()
+        super(WatermarkDataLoader, self).__init__()
         self.watermark_size = watermark_size
         self.seed = seed
 

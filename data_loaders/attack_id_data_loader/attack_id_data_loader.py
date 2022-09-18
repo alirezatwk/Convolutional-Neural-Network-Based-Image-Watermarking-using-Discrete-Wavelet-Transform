@@ -3,9 +3,9 @@ import tensorflow as tf
 from data_loaders.base_data_loader import BaseDataLoader
 
 
-class TensorFlowAttackIdDataLoader(BaseDataLoader):
+class AttackIdDataLoader(BaseDataLoader):
     def __init__(self, max_value, min_value):
-        super(TensorFlowAttackIdDataLoader, self).__init__()
+        super(AttackIdDataLoader, self).__init__()
         self.min_value = min_value
         self.max_value = max_value
 

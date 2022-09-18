@@ -7,9 +7,9 @@ from data_loaders.base_data_loader import BaseDataLoader
 from data_loaders.configs import IMAGE_FORMATS
 
 
-class TensorFlowImageDataLoader(BaseDataLoader):
+class ImageDataLoader(BaseDataLoader):
     def __init__(self, base_path: str, channels: List[int], convert_type=None, images_format=IMAGE_FORMATS):
-        super(TensorFlowImageDataLoader, self).__init__()
+        super(ImageDataLoader, self).__init__()
         self.base_path = base_path
         self.channels = channels
         self.convert_type = convert_type
