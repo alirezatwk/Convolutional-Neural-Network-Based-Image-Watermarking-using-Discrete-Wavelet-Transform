@@ -1,5 +1,5 @@
 # Convolutional Neural Network-Based Image Watermarking using Discrete Wavelet Transform
-[TensorFlow 2.5.0](https://www.tensorflow.org/) Implementation of ["Link"](http://www.blankwebsite.com/) (Link will available soon!)
+[TensorFlow 2.5.0](https://www.tensorflow.org/) Implementation of ["Convolutional Neural Network-Based Image Watermarking using Discrete Wavelet Transform"](https://arxiv.org/abs/2210.06179)
 
 ## Prerequisite
 1. Install Python packages
@@ -32,4 +32,13 @@ jupyter notebook
 After accessing notebook, open the `evaluator.ipynb` and run the desire cells.
 
 ## Reference
-TODO
+If you use this code as part of any published research, please refer the following paper.
+```
+@article{tavakoli2023convolutional,
+  title={Convolutional neural network-based image watermarking using discrete wavelet transform},
+  author={Tavakoli, Alireza and Honjani, Zahra and Sajedi, Hedieh},
+  journal={International Journal of Information Technology},
+  year={2023},
+  publisher={Springer}
+}
+```
